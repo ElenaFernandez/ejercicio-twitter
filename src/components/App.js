@@ -1,4 +1,4 @@
-//import '../styles/App.css';
+import '../styles/App.css';
 import adalabBanner from '../images/adalab-banner.jpg';
 import adalabLogo from '../images/adalab-logo.png';
 
