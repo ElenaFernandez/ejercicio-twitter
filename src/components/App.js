@@ -1,4 +1,6 @@
-import '../styles/App.css';
+//import '../styles/App.css';
+import adalabBanner from '../images/adalab-banner.jpg';
+import adalabLogo from '../images/adalab-logo.png';
 
 function App() {
   return (
@@ -47,11 +49,11 @@ function App() {
               <span className="header__tweets">6.762 Tweets</span>
             </h1>
 
-            <img src="./assets/images/adalab-banner.jpg" alt="Banner de Adalab" />
+            <img src={adalabBanner} alt="Banner de Adalab" />
 
             <div className="header__content">
               <div className="header__profile-image">
-                <img src="./assets/images/adalab-logo.png" alt="Imagen de perfil de Adalab" />
+                <img src={adalabLogo} alt="Imagen de perfil de Adalab" />
               </div>
 
               <div className="header__actions">
