@@ -2,15 +2,20 @@ import { useState } from 'react';
 import '../styles/App.scss';
 import adalabBanner from '../images/adalab-banner.jpg';
 import adalabLogo from '../images/adalab-logo.png';
-import { render } from '@testing-library/react';
 
 function App() {
   const [composeIsOpen, setComposeIsOpen] = useState(false);
+  const [composeText, setComposeText] = useState('');
 
   const handleTogleCompose = () => {
     setComposeIsOpen(!composeIsOpen);
   };
-
+  const handleComposeText = (event) => {
+    setComposeText(event.currentTarget.value);
+  };
+  const handleComposeSubmit = (event) => {
+    event.preventDefault();
+  };
   const renderHeader = () => {
     return (
       <header className="header">
@@ -118,35 +123,43 @@ function App() {
   };
 
   const renderComposeModal = () => {
+    const isButtonDisabled = composeText.length === 0;
     if (composeIsOpen === true) {
       return (
         <div className="compose__modal-overlay">
-          <div className="compose__modal-wrapper">
-            <div className="compose__modal-header">
-              <button
-                className="compose__modal-close-btn"
-                onClick={handleTogleCompose}
-              >
-                Cerrar
-              </button>
+          <form onSubmit={handleComposeSubmit}>
+            <div className="compose__modal-wrapper">
+              <div className="compose__modal-header">
+                <button
+                  className="compose__modal-close-btn"
+                  onClick={handleTogleCompose}
+                >
+                  Cerrar
+                </button>
+              </div>
+              <div className="compose__modal-content">
+                <img
+                  className="compose__profile-logo"
+                  src={adalabLogo}
+                  alt="Logo de Adalab"
+                />
+                <textarea
+                  className="compose__profile-textarea"
+                  placeholder="¿Qué está pasando?"
+                  onChange={handleComposeText}
+                  value={composeText}
+                />
+              </div>
+              <div className="compose__modal-footer">
+                <button
+                  className="compose__modal-tweet-btn"
+                  disabled={isButtonDisabled}
+                >
+                  Twittear
+                </button>
+              </div>
             </div>
-            <div className="compose__modal-content">
-              <img
-                className="compose__profile-logo"
-                src={adalabLogo}
-                alt="Logo de Adalab"
-              />
-              <textarea
-                className="compose__profile-textarea"
-                placeholder="¿Qué está pasando?"
-              />
-            </div>
-            <div className="compose__modal-footer">
-              <button className="compose__modal-tweet-btn" disabled>
-                Twittear
-              </button>
-            </div>
-          </div>
+          </form>
         </div>
       );
     }
@@ -155,9 +168,8 @@ function App() {
     <div className="page">
       {renderHeader()};
       <main className="main">
-        {renderMainHeader()};
-        {renderComposeModal()};
-        </main>
+        {renderMainHeader()};{renderComposeModal()};
+      </main>
     </div>
   );
 }
