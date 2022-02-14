@@ -1,13 +1,25 @@
 import { useState } from 'react';
 import '../styles/App.scss';
-import tweetsData from '../data/tweet.json';
 import adalabBanner from '../images/adalab-banner.jpg';
 import adalabLogo from '../images/adalab-logo.png';
+import callToApi from '../services/api';
+import ls from '../services/localStorage';
+import { useEffect } from 'react';
 
 function App() {
   const [composeIsOpen, setComposeIsOpen] = useState(false);
-  const [composeText, setComposeText] = useState('');
-  const[tweets,setTweets]= useState(tweetsData);
+  const [composeText, setComposeText] = useState(ls.get('composeText', ''));
+  const [tweets, setTweets] = useState([]);
+
+  useEffect(() => {
+    callToApi().then((data) => {
+      setTweets(data);
+    });
+  }, []);
+
+  useEffect(() => {
+    ls.set('composeText', composeText);
+  }, [composeText]);
 
   const handleTogleCompose = () => {
     setComposeIsOpen(!composeIsOpen);
@@ -18,20 +30,18 @@ function App() {
   const handleComposeSubmit = (event) => {
     event.preventDefault();
     tweets.unshift({
-       id:'25200115', 
-     
-      user: 'Adalab' ,
+      id: '25200115',
+      user: 'Adalab',
       username: 'Adalab_digital',
       date: '31 enero 2021',
-      text: composeText ,
-      comments:0,
-      retweets:0,
-      likes: 0
+      text: composeText,
+      comments: 0,
+      retweets: 0,
+      likes: 0,
     });
-    setTweets([...tweets])
-    setComposeIsOpen(false)
-    setComposeText('')
-    
+    setTweets([...tweets]);
+    setComposeIsOpen(false);
+    setComposeText('');
   };
   const renderHeader = () => {
     return (
